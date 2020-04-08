@@ -37,73 +37,32 @@ class LoginController extends Controller
     }
     
 
-    public function loginWeb(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
-        $token = null;
-        $user = null;
-
-        try {
-
-            $user = User::where('email', $request->input('email'))->first();
-            if (empty($user)) {
-                return response()->json(['error' => 'Email inválido.'], 401);
-            }
-
-            //En el panel solo se logean usuarios administradores
-            if ($user->tipo_usuario != 1 && $user->tipo_usuario != 4) {
-                return response()->json(['error' => 'Credenciales inválidas.'], 401);
-            }
-
-            if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'Password inválido.'], 401);
-            }
-
-            if ($request->input('token_notificacion') != '' && $request->input('token_notificacion') != null && $request->input('token_notificacion') != 'null') {
-                if ($request->input('token_notificacion') != $user->token_notificacion) {
-                    $user->token_notificacion = $request->input('token_notificacion');
-                    $user->save();
-                } 
-            }
-
-            $user = JWTAuth::toUser($token);
-            
-
-        } catch (JWTException $ex) {
-            return response()->json(['error' => 'could_not_create_token'], 500);
-        }
-
-        //return response()->json(compact('token', 'user'));
-
-        if ($user->tipo_usuario == 4) {
-            $user->establecimiento = $user->establecimiento;
-        }
-
-        return response()
-            ->json([
-                'token' => $token,
-                'user' => $user
-            ]);
-    }
-
-    public function loginApp(Request $request)
+    
+    public function sp_01_ingresar(Request $request)
     {    
+
+        /*
+            EXEC dbo.sp_01_ingresar
+            @IdUsuario = 1
+            ,@Idioma = 'ESP'
+            ,@telefono = '5533873853'
+            ,@passw = 'T1234'
+        */
+
         $token = null;
         $user = null;
         $bandera = false;
 
-
-
-        if ($request->input('email') && $request->input('password')) {
+        if ($request->input('telefono') && $request->input('password')) {
             
 
-            $usuarios=DB::select(DB::raw("exec sc_patronna_login_ingresar :IdUsuario, :Idioma, :eMail, :passw"),[
+            $usuarios=DB::select(DB::raw("exec sp_01_ingresar :IdUsuario, :Idioma, :telefono, :passw"),[
 	            ':IdUsuario' => 1,
 	            ':Idioma' => 'ESP',
-	            ':eMail' => $request->input('email'),
+	            ':telefono' => $request->input('telefono'),
 	            ':passw' => $request->input('password'),
 	        ]);
-            //return response()->json(['usuarios'=>$usuarios], 200);
+            return response()->json(['usuarios'=>$usuarios], 200);
 
 	        if($usuarios[0]->idUsuario == 'Correo inexistente'){
 	            return response()->json(['error'=>'No existe el usuario.'], 404);          
@@ -119,156 +78,6 @@ class LoginController extends Controller
         }
 
     }
-
-    public function loginRepartidores(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
-        $token = null;
-        $user = null;
-
-        try {
-
-            $user = User::where('email', $request->input('email'))->first();
-
-            if (empty($user)) {
-                return response()->json(['error' => 'Email inválido.'], 401);
-            }
-
-            //Login solo para los repartidores
-            if ($user->tipo_usuario != 3 || $user->tipo_usuario !=4) {
-               // return response()->json(['error' => 'No eres un proveedor.'], 401);
-            }
-
-            if (!$token = JWTAuth::attempt($credentials)) {
-               // return response()->json(['error' => 'Password inválido.'], 401);
-            }
-
-            if ($request->input('token_notificacion')) {
-                $user->token_notificacion = $request->input('token_notificacion');
-                $user->save();
-            }
-
-            if ($request->input('token_notificacion') != '' && $request->input('token_notificacion') != null) {
-                if ($request->input('token_notificacion') != $user->token_notificacion) {
-                    $user->token_notificacion = $request->input('token_notificacion');
-                    $user->save();
-                } 
-            }
-
-            if ($request->input('token_notificacion') != '' && $request->input('token_notificacion') != null) {
-                if ($request->input('token_notificacion') != $user->token_notificacion) {
-                    $user->token_notificacion = $request->input('token_notificacion');
-                    $user->save();
-                } 
-            }else if(!$bandera && $request->input('email') && !$request->input('password')){
-
-                $user = User::where('email', $request->input('email'))->first();
-                if (empty($user)) {
-                    return response()->json(['error' => 'Usuario no encontrado.'], 401);
-                }
-
-                //En la app solo se logean usuarios clientes
-                if ($user->tipo_usuario == 2) {
-                    return response()->json(['error' => 'Credenciales inválidas.'], 401);
-                }
-
-                $token = JWTAuth::fromUser($user);
-                $bandera=true;
-                
-                if ($user->id_facebook == null && $request->input('id_facebook') != null && $request->input('id_facebook') != '') {
-
-                    $user->id_facebook = $request->input('id_facebook');
-                    $user->save();
-                }
-                if ($user->id_twitter == null && $request->input('id_twitter') != null && $request->input('id_twitter') != '') {
-
-                    $user->id_twitter = $request->input('id_twitter');
-                    $user->save();
-                }
-                if ($user->id_instagram == null && $request->input('id_instagram') != null && $request->input('id_instagram') != '') {
-
-                    $user->id_instagram = $request->input('id_instagram');
-                    $user->save();
-                }
-
-            }else if(!$bandera && $request->input('id_facebook')){
-
-                $user = User::where('id_facebook', $request->input('id_facebook'))->first();
-                if (empty($user)) {
-                    return response()->json(['error' => 'Usuario no encontrado.'], 401);
-                }
-
-                //En la app solo se logean usuarios clientes
-                if ($user->tipo_usuario != 2) {
-                    return response()->json(['error' => 'Credenciales inválidas.'], 401);
-                }
-
-                $token = JWTAuth::fromUser($user);
-                $bandera=true;
-
-            }else if(!$bandera && $request->input('id_twitter')){
-
-                $user = User::where('id_twitter', $request->input('id_twitter'))->first();
-                if (empty($user)) {
-                    return response()->json(['error' => 'Usuario no encontrado.'], 401);
-                }
-
-                //En la app solo se logean usuarios clientes
-                if ($user->tipo_usuario != 2) {
-                    return response()->json(['error' => 'Credenciales inválidas.'], 401);
-                }
-
-                $token = JWTAuth::fromUser($user);
-                $bandera=true;
-
-            }else if(!$bandera && $request->input('id_instagram')){
-
-                $user = User::where('id_instagram', $request->input('id_instagram'))->first();
-                if (empty($user)) {
-                    return response()->json(['error' => 'Usuario no encontrado.'], 401);
-                }
-
-                //En la app solo se logean usuarios clientes
-                if ($user->tipo_usuario != 2) {
-                    return response()->json(['error' => 'Credenciales inválidas.'], 401);
-                }
-
-                $token = JWTAuth::fromUser($user);
-                $bandera=true;
-            }
-
-            if ($request->input('token_notificacion') != '' && $request->input('token_notificacion') != null) {
-                if ($request->input('token_notificacion') != $user->token_notificacion) {
-                    $user->token_notificacion = $request->input('token_notificacion');
-                    $user->save();
-                } 
-            }
-            
-            $user = JWTAuth::toUser($token);
-            
-
-        } catch (JWTException $ex) {
-            return response()->json(['error' => 'could_not_create_token'], 500);
-        }
-
-        //return response()->json(compact('token', 'user'));
-
-        $user->repartidor = $user->repartidor;
-        $users = \App\User::where('id',$user->id)->with('establecimiento')->get();
-         $user->establecimiento=$users[0]->establecimiento;
-
-        $info_registro=Registro::select('direccion','direccion_exacta','email','foto','tipo','usuario_id','id','estado','cedula')->where('usuario_id',$user->id)->first();
-        $user->registro=$info_registro;
-
-         $user->promedio_calificacion=5;
-        return response()
-            ->json([
-                'token' => $token,
-                'user' => $user,
-                //'info_registro' => $info_registro,
-            ]);
-    }
-
     
 
 }

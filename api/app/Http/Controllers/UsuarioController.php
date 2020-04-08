@@ -17,16 +17,28 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UsuarioController extends Controller
 {
-    public function sc_patronna_cuenta_consulta(Request $request)
+    public function sp_01_guardar(Request $request)
     {
-        /*EXEC dbo.sc_patronna_cuenta_consulta
+        /*EXEC dbo.sp_01_guardar 
         @IdUsuario = 1
-        ,@Idioma = 'esp'*/
+        ,@Idioma = 'ESP'
+        ,@nombre = 'NORA PATRICIA NOROÑA'
+        ,@eMail = 'np@mail.com'
+        ,@telefono = '5533873853'
+        ,@entidad = 'NUEVO LEÓN'
+        ,@ciudad = 'MONTEREY'
+        ,@passw = 'T1234'*/
 
-        if ($request->input('IdUsuario')){
-            $usuarios=DB::select(DB::raw("exec sc_patronna_cuenta_consulta :IdUsuario, :Idioma"),[
-                    ':IdUsuario' => $request->input('IdUsuario'),
+        if (/*$request->input('IdUsuario')*/true){
+            $usuarios=DB::select(DB::raw("exec sp_01_guardar :IdUsuario, :Idioma,:nombre,:eMail,:telefono,:entidad,:ciudad,:passw"),[
+                    ':IdUsuario' => 1,
                     ':Idioma' => 'ESP',
+                    ':nombre' => 'Stalin',
+                    ':eMail' => 'e.rangeld@hotmail.com',
+                    ':telefono' => '123',
+                    ':entidad' => 'Mérida',
+                    ':ciudad' => 'Merida',
+                    ':passw' => '12345',
                 ]);
             
             self::utf8_encode_deep($usuarios);
