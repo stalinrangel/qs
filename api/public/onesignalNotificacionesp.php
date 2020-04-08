@@ -25,15 +25,7 @@
 				'android_channel_id' => 'd3180c9d-44fc-4384-a49b-dd4b10609ad9',
 				'android_sound' => 'notify',
 				'ios_sound'=> 'notify',
-				/*,
-				'small_icon'=>'http://shopper.internow.com.mx/assets/img/logo-symbol.png',
-				'adm_small_icon'=>'http://mouvers.mx/terminos/imgs/mouver.png',
-				'chrome_web_icon'=>'http://mouvers.mx/terminos/imgs/mouver.png',
-				'chrome_web_image'=>'http://mouvers.mx/terminos/imgs/mouver.png',
-				'firefox_icon'=>'http://mouvers.mx/terminos/imgs/mouver.png',
-				'chrome_icon'=>'http://mouvers.mx/terminos/imgs/mouver.png',
-				'chrome_web_default_notification_icon'=>'http://mouvers.mx/terminos/imgs/mouver.png',
-				'onesignal_bgimage_default_image'=>'http://mouvers.mx/terminos/imgs/mouver.png'*/
+				
 			);
 			
 			$fields = json_encode($fields);
