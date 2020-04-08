@@ -33,12 +33,12 @@ class UsuarioController extends Controller
             $usuarios=DB::select(DB::raw("exec sp_01_guardar :IdUsuario, :Idioma,:nombre,:eMail,:telefono,:entidad,:ciudad,:passw"),[
                     ':IdUsuario' => 1,
                     ':Idioma' => 'ESP',
-                    ':nombre' => 'Stalin',
-                    ':eMail' => 'e.rangeld@hotmail.com',
-                    ':telefono' => '123',
-                    ':entidad' => 'Mérida',
-                    ':ciudad' => 'Merida',
-                    ':passw' => '12345',
+                    ':nombre' => $request->input('nombre'),
+                    ':eMail' => $request->input('eMail'),
+                    ':telefono' => $request->input('telefono'),
+                    ':entidad' => $request->input('entidad'),
+                    ':ciudad' => $request->input('ciudad'),
+                    ':passw' => $request->input('passw'),
                 ]);
             
             self::utf8_encode_deep($usuarios);
