@@ -101,7 +101,24 @@ class LoginController extends Controller
 	            ':telefono' => $request->input('telefono'),
 	            ':passw' => $request->input('password'),
 	        ]);
-            return response()->json(['usuarios'=>$usuarios], 200);
+
+            $fecha=[];
+            $band=false;
+            for ($i=0; $i < count($usuarios); $i++) {
+                if (count($fecha)==0) {
+                        array_push($fecha,$usuarios[$i]->fecha);
+                    }
+                for ($j=0; $j < count($fecha); $j++) { 
+                    if ($fecha[$j]==$usuarios[$i]->fecha) {
+                        $band=true;
+                    }
+                }
+                if ($band==false) {
+                    array_push($fecha,$usuarios[$i]->fecha);
+                }
+
+            }
+            return response()->json(['usuarios'=>$usuarios,'fecha'=>$fecha], 200);
 
 	        if($usuarios[0]->idUsuario == 'Correo inexistente'){
 	            return response()->json(['error'=>'No existe el usuario.'], 404);          
