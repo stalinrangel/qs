@@ -86,11 +86,11 @@ class LoginController extends Controller
 
             for ($i=0; $i < count($fechas); $i++) { 
                for ($j=0; $j < count($usuarios); $j++) { 
-                   if ($fechas[$i]->fecha==$usuarios[$j]->fecha) {
+                   /*if ($fechas[$i]->fecha==$usuarios[$j]->fecha) {
                        if ($usuarios[$j]->idContacto!=null) {
                            array_push($fechas[$i]->contactos,$usuarios[$j]);
                        }
-                   }
+                   }*/
                }
             }
             return response()->json(['fechas'=>$fechas,'usuarios'=>$usuarios], 200);
