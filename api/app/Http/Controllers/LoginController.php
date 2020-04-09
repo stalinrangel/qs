@@ -52,6 +52,13 @@ class LoginController extends Controller
         $bandera = false;
 
         if ($request->input('telefono') && $request->input('password')) {
+
+            $info_usuarios=DB::select(DB::raw("exec sp_01_ingresar :IdUsuario, :Idioma, :telefono, :passw"),[
+                ':IdUsuario' => $request->input('IdUsuario'),
+                ':Idioma' => 'ESP',
+                ':telefono' => $request->input('telefono'),
+                ':passw' => $request->input('password'),
+            ]);
             
 
             $usuarios=DB::select(DB::raw("exec sp_01_ingresarC :IdUsuario, :Idioma, :telefono, :passw"),[
@@ -84,10 +91,6 @@ class LoginController extends Controller
                 array_push($fechas,$aux);
             }
 
-           /* $fechas = (object)($fechas);
-            $fechas = json_decode(json_encode($fechas),true);*/
-
-            //return response()->json(['fechas'=>$fechas[0]['fecha']], 200);
             for ($i=0; $i < count($fechas); $i++) { 
                for ($j=0; $j < count($usuarios); $j++) { 
                    if ($fechas[$i]['fecha']==$usuarios[$j]->fecha) {
@@ -97,7 +100,7 @@ class LoginController extends Controller
                    }
                }
             }
-            return response()->json(['fechas'=>$fechas,'usuarios'=>$usuarios], 200);
+            return response()->json(['usuario'=>$info_usuarios, 'fechas'=>$fechas], 200);
 
             if($usuarios[0]->idUsuario == 'Correo inexistente'){
                 return response()->json(['error'=>'No existe el usuario.'], 404);          
