@@ -83,7 +83,17 @@ class LoginController extends Controller
                            'contactos' => []);
                 array_push($fechas,$aux);
             }
-            return response()->json(['usuarios'=>$usuarios,'fechas'=>$fechas], 200);
+
+            for ($i=0; $i < count($fechas); $i++) { 
+               for ($j=0; $j < count($usuarios); $j++) { 
+                   if ($fechas[$i]->fecha==$usuarios[$j]->fecha) {
+                       if ($usuarios[$j]->idContacto!=null) {
+                           array_push($fechas[$i]->contactos,$usuarios[$j]);
+                       }
+                   }
+               }
+            }
+            return response()->json(['fechas'=>$fechas,'usuarios'=>$usuarios], 200);
 
             if($usuarios[0]->idUsuario == 'Correo inexistente'){
                 return response()->json(['error'=>'No existe el usuario.'], 404);          
