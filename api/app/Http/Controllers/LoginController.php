@@ -77,7 +77,12 @@ class LoginController extends Controller
                 $band=false;
 
             }
-            return response()->json(['usuarios'=>$usuarios,'fecha'=>$fecha], 200);
+            $fechas=[];
+            for ($i=0; $i < count($fecha); $i++) { 
+                $aux=array('fecha' => $fecha[$i],
+                           'contactos' => []);
+            }
+            return response()->json(['usuarios'=>$usuarios,'fechas'=>$fechas], 200);
 
             if($usuarios[0]->idUsuario == 'Correo inexistente'){
                 return response()->json(['error'=>'No existe el usuario.'], 404);          
