@@ -54,7 +54,7 @@ class LoginController extends Controller
         if ($request->input('telefono') && $request->input('password')) {
             
 
-            $usuarios=DB::select(DB::raw("exec sp_01_ingresar :IdUsuario, :Idioma, :telefono, :passw"),[
+            $usuarios=DB::select(DB::raw("exec sp_01_ingresarC :IdUsuario, :Idioma, :telefono, :passw"),[
                 ':IdUsuario' => $request->input('IdUsuario'),
                 ':Idioma' => 'ESP',
                 ':telefono' => $request->input('telefono'),
