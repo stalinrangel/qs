@@ -17,6 +17,29 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UsuarioController extends Controller
 {
+
+    public function sp_02_consultarPerfil(Request $request)
+    {
+        /*EXEC dbo.sp_02_consultarPerfil
+        @IdUsuario = 1
+        ,@Idioma = 'ESP'*/
+
+        if ($request->input('IdUsuario')){
+            $usuarios=DB::select(DB::raw("exec sp_02_consultarPerfil :IdUsuario, :Idioma"),[
+                    ':IdUsuario' => $request->input('IdUsuario'),
+                    ':Idioma' => 'ESP'
+                ]);
+            
+            self::utf8_encode_deep($usuarios);
+            return response()->json(['usuario'=>$usuarios, 'status'=>200], 200);
+
+        }else{
+            return response()->json(['error'=>'Faltan datos para el proceso de actualización de usuario', 'status'=>400], 404); 
+        }
+
+    }
+
+
     public function sp_01_guardar(Request $request)
     {
         /*EXEC dbo.sp_01_guardar 
@@ -49,6 +72,7 @@ class UsuarioController extends Controller
         }
 
     }
+
 
     public function sc_patronna_cuenta_actualiza(Request $request)
     {
