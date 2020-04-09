@@ -29,7 +29,7 @@ class MenuController extends Controller
 
         if (/*$request->input('IdUsuario')*/true){
             $usuarios=DB::select(DB::raw("exec sp_02_editarPerfil :IdUsuario, :Idioma,:eMail,:entidad,:ciudad,:entidad,:ciudad,:passw"),[
-                    ':IdUsuario' => 1,
+                    ':IdUsuario' => $request->input('IdUsuario'),
                     ':Idioma' => 'ESP',
                     ':eMail' => $request->input('eMail'),
                     ':entidad' => $request->input('entidad'),
@@ -63,7 +63,7 @@ class MenuController extends Controller
 
         if (/*$request->input('IdUsuario')*/true){
             $usuarios=DB::select(DB::raw("exec sp_02_sintomas :IdUsuario, :Idioma,:tos,:dGarganta,:flema,:sAliento,:fiebre,:fatiga,:aMedica1,:aMedica2,:aMedica3,:aMedica4"),[
-                    ':IdUsuario' => 1,
+                    ':IdUsuario' => $request->input('IdUsuario'),
                     ':Idioma' => 'ESP',
                     ':tos' => $request->input('tos'),
                     ':dGarganta' => $request->input('dGarganta'),
@@ -95,7 +95,7 @@ class MenuController extends Controller
 
         if (/*$request->input('IdUsuario')*/true){
             $usuarios=DB::select(DB::raw("exec sp_02_detalle :IdUsuario, :Idioma,:idContacto"),[
-                    ':IdUsuario' => 1,
+                    ':IdUsuario' => $request->input('IdUsuario'),
                     ':Idioma' => 'ESP',
                     ':idContacto' => $request->input('idContacto')
                 ]);
@@ -124,7 +124,7 @@ class MenuController extends Controller
 
         if (/*$request->input('IdUsuario')*/true){
             $usuarios=DB::select(DB::raw("exec sp_02_agregaContacto :IdUsuario, :Idioma,:nombre,:eMail,:telefono,:dia,:mes,:ayo"),[
-                    ':IdUsuario' => 1,
+                    ':IdUsuario' => $request->input('IdUsuario'),
                     ':Idioma' => 'ESP',
                     ':nombre' => $request->input('nombre'),
                     ':eMail' => $request->input('eMail'),
