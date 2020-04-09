@@ -84,7 +84,7 @@ class LoginController extends Controller
                 array_push($fechas,$aux);
             }
 
-            $fechas = json_decode(json_encode($fechas), true);
+            $fechas = (object)($fechas);
             return response()->json(['fechas'=>$fechas[0]->fecha], 200);
             for ($i=0; $i < count($fechas); $i++) { 
                for ($j=0; $j < count($usuarios); $j++) { 
