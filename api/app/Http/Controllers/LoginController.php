@@ -62,7 +62,12 @@ class LoginController extends Controller
 	            ':telefono' => $request->input('telefono'),
 	            ':passw' => $request->input('password'),
 	        ]);
-            return response()->json(['usuarios'=>$usuarios], 200);
+            //return response()->json(['usuarios'=>$usuarios], 200);
+
+                $user = User::where('telefono', $request->input('telefono'))->first();
+                $token = JWTAuth::fromUser($user);
+                return response()->json(['usuarios'=>$usuarios,'token'=>$token], 200);
+
 
 	        if($usuarios[0]->idUsuario == 'Correo inexistente'){
 	            return response()->json(['error'=>'No existe el usuario.'], 404);          
