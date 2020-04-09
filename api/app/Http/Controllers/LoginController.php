@@ -85,7 +85,7 @@ class LoginController extends Controller
             }
 
             $fechas = json_decode(json_encode($fechas), true);
-
+            return count($fechas);
             for ($i=0; $i < count($fechas); $i++) { 
                for ($j=0; $j < count($usuarios); $j++) { 
                    if ($fechas[$i]->fecha==$usuarios[$j]->fecha) {
