@@ -100,7 +100,7 @@ class LoginController extends Controller
                    }
                }
             }
-            return response()->json(['usuario'=>$info_usuarios, 'fechas'=>$fechas], 200);
+            return response()->json(['usuario'=>$info_usuarios[0], 'fechas'=>$fechas], 200);
 
             if($usuarios[0]->idUsuario == 'Correo inexistente'){
                 return response()->json(['error'=>'No existe el usuario.'], 404);          
