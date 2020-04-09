@@ -74,6 +74,7 @@ class LoginController extends Controller
                 if ($band==false) {
                     array_push($fecha,$usuarios[$i]->fecha);
                 }
+                $band=false;
 
             }
             return response()->json(['usuarios'=>$usuarios,'fecha'=>$fecha], 200);
