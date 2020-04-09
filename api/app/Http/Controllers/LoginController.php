@@ -81,6 +81,7 @@ class LoginController extends Controller
             for ($i=0; $i < count($fecha); $i++) { 
                 $aux=array('fecha' => $fecha[$i],
                            'contactos' => []);
+                array_push($fechas,$aux);
             }
             return response()->json(['usuarios'=>$usuarios,'fechas'=>$fechas], 200);
 
