@@ -57,7 +57,7 @@ class LoginController extends Controller
             
 
             $usuarios=DB::select(DB::raw("exec sp_01_ingresar :IdUsuario, :Idioma, :telefono, :passw"),[
-	            ':IdUsuario' => 1,
+	            ':IdUsuario' => $request->input('IdUsuario'),
 	            ':Idioma' => 'ESP',
 	            ':telefono' => $request->input('telefono'),
 	            ':passw' => $request->input('password'),
