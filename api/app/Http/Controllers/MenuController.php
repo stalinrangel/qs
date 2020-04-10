@@ -28,7 +28,7 @@ class MenuController extends Controller
             ,@ciudad = 'ixtapaluca'*/
 
         if (/*$request->input('IdUsuario')*/true){
-            $usuarios=DB::select(DB::raw("exec sp_02_editarPerfil :IdUsuario, :Idioma,:eMail,:entidad,:ciudad,:entidad,:ciudad,:passw"),[
+            $usuarios=DB::select(DB::raw("exec sp_02_editarPerfil :IdUsuario, :Idioma,:eMail,:entidad,:ciudad"),[
                     ':IdUsuario' => $request->input('IdUsuario'),
                     ':Idioma' => 'ESP',
                     ':eMail' => $request->input('eMail'),
