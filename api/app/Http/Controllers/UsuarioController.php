@@ -25,7 +25,7 @@ class UsuarioController extends Controller
         ,@Idioma = 'ESP'*/
 
         if ($request->input('IdUsuario')){
-            $usuarios=DB::select(DB::raw("exec sp_02_consultarPerfil :IdUsuario, :Idioma"),[
+            $usuarios=DB::select(DB::raw("exec sp_02_alerta :IdUsuario, :Idioma"),[
                     ':IdUsuario' => $request->input('IdUsuario'),
                     ':Idioma' => 'ESP'
                 ]);
