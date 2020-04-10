@@ -35,6 +35,25 @@ class LoginController extends Controller
 
         return 1;
     }
+
+    
+    public function utf8_encode_deep(&$input) {
+        if (is_string($input)) {
+            $input = iconv("ISO-8859-1", "UTF-8", $input);;
+        } else if (is_array($input)) {
+            foreach ($input as &$value) {
+                self::utf8_encode_deep($value);
+            }
+
+            unset($value);
+        } else if (is_object($input)) {
+            $vars = array_keys(get_object_vars($input));
+
+            foreach ($vars as $var) {
+                self::utf8_encode_deep($input->$var);
+            }
+        }
+    }
     
     public function sp_01_ingresarC(Request $request)
     {    
@@ -60,13 +79,15 @@ class LoginController extends Controller
                 ':passw' => $request->input('password'),
             ]);
             
-
+            self::utf8_encode_deep($info_usuarios);
             $usuarios=DB::select(DB::raw("exec sp_01_ingresarC :IdUsuario, :Idioma, :telefono, :passw"),[
                 ':IdUsuario' => $request->input('IdUsuario'),
                 ':Idioma' => 'ESP',
                 ':telefono' => $request->input('telefono'),
                 ':passw' => $request->input('password'),
             ]);
+            
+            self::utf8_encode_deep($usuarios);
             $fecha=[];
             $band=false;
             for ($i=0; $i < count($usuarios); $i++) {
