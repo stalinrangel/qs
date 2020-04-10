@@ -86,8 +86,9 @@ class LoginController extends Controller
                 ':telefono' => $request->input('telefono'),
                 ':passw' => $request->input('password'),
             ]);
-            
+
             self::utf8_encode_deep($usuarios);
+            return response()->json(['usuario'=>$usuarios, 'info_usuarios'=>$info_usuarios], 200);
             $fecha=[];
             $band=false;
             for ($i=0; $i < count($usuarios); $i++) {
