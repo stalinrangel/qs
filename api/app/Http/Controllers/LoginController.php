@@ -79,7 +79,7 @@ class LoginController extends Controller
                 ':passw' => $request->input('password'),
             ]);
             
-            self::utf8_encode_deep($info_usuarios);
+            //self::utf8_encode_deep($info_usuarios);
             $usuarios=DB::select(DB::raw("exec sp_01_ingresarC :IdUsuario, :Idioma, :telefono, :passw"),[
                 ':IdUsuario' => $request->input('IdUsuario'),
                 ':Idioma' => 'ESP',
@@ -87,7 +87,7 @@ class LoginController extends Controller
                 ':passw' => $request->input('password'),
             ]);
 
-            self::utf8_encode_deep($usuarios);
+            //self::utf8_encode_deep($usuarios);
             return response()->json(['usuario'=>$usuarios, 'info_usuarios'=>$info_usuarios], 200);
             $fecha=[];
             $band=false;
