@@ -17,6 +17,27 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UsuarioController extends Controller
 {
+    public function sp_02_editarFoto(Request $request)
+    {
+        /*EXEC dbo.sp_02_consultarPerfil
+        @IdUsuario = 1
+        ,@Idioma = 'ESP'*/
+
+        if ($request->input('IdUsuario')){
+            $usuarios=DB::select(DB::raw("exec sp_02_editarFoto :IdUsuario, :Idioma, :rutaFoto"),[
+                    ':IdUsuario' => $request->input('IdUsuario'),
+                    ':Idioma' => 'ESP',
+                    ':rutaFoto' => $request->input('rutaFoto'),
+                ]);
+            
+            self::utf8_encode_deep($usuarios);
+            return response()->json(['usuario'=>$usuarios, 'status'=>200], 200);
+
+        }else{
+            return response()->json(['error'=>'Faltan datos para el proceso de actualización de usuario', 'status'=>400], 404); 
+        }
+
+    }
 
     public function sp_02_alerta(Request $request)
     {
