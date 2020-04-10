@@ -30,6 +30,7 @@ Route::group(['middleware' =>'cors'], function(){
 
     Route::post('/sp_01_guardar','UsuarioController@sp_01_guardar');
     Route::post('/sp_02_consultarPerfil','UsuarioController@sp_02_consultarPerfil');
+    Route::post('/sp_02_alerta','UsuarioController@sp_02_alerta');
     Route::post('/sp_01_ingresar','LoginController@sp_01_ingresar');
     Route::post('/sp_01_ingresarC','LoginController@sp_01_ingresarC');
 
