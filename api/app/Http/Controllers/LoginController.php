@@ -88,7 +88,7 @@ class LoginController extends Controller
             ]);
 
             self::utf8_encode_deep($usuarios);
-            return response()->json(['usuario'=>$usuarios, 'info_usuarios'=>$info_usuarios], 200);
+            //return response()->json(['usuario'=>$usuarios, 'info_usuarios'=>$info_usuarios], 200);
             $fecha=[];
             $band=false;
             for ($i=0; $i < count($usuarios); $i++) {
