@@ -165,7 +165,8 @@ class LoginController extends Controller
             ]);
 
             
-
+            return response()->json(['usuarios'=>$usuarios], 200);
+            
             if($usuarios[0]->idUsuario == 'Correo inexistente'){
                 return response()->json(['error'=>'No existe el usuario.'], 404);          
             }else if($usuarios[0]->idUsuario == 'Password erroneo'){
