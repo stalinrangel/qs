@@ -57,7 +57,8 @@ class ContactoController extends Controller
             ]);
 
             self::utf8_encode_deep($usuarios);
-            
+             return response()->json(['usuario'=>$usuarios], 200);
+
             $aux=[];
             for ($j=0; $j < count($usuarios); $j++) { 
                
