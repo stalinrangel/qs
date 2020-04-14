@@ -35,6 +35,7 @@ Route::group(['middleware' =>'cors'], function(){
     Route::post('/sp_02_alerta','UsuarioController@sp_02_alerta');
     Route::post('/sp_01_ingresar','LoginController@sp_01_ingresar');
     Route::post('/sp_01_ingresarC','LoginController@sp_01_ingresarC');
+    Route::post('/contactos','ContactoController@contactos');
 
     Route::post('/sp_02_editarPerfil','MenuController@sp_02_editarPerfil');
     Route::post('/sp_02_sintomas','MenuController@sp_02_sintomas');
