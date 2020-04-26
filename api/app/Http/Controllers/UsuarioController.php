@@ -17,6 +17,26 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UsuarioController extends Controller
 {
+    public function sp_01_registros(Request $request)
+    {
+        /*EXEC dbo.sp_02_consultarPerfil
+        @IdUsuario = 1
+        ,@Idioma = 'ESP'*/
+
+        if ($request->input('IdUsuario')){
+            $usuarios=DB::select(DB::raw("exec sp_01_registros :IdUsuario, :Idioma"),[
+                    ':IdUsuario' => $request->input('IdUsuario'),
+                    ':Idioma' => 'ESP',
+                ]);
+            
+            self::utf8_encode_deep($usuarios);
+            return response()->json(['registros'=>$usuarios, 'status'=>200], 200);
+
+        }else{
+            return response()->json(['error'=>'Faltan datos para el proceso de actualización de usuario', 'status'=>400], 404); 
+        }
+
+    }
     public function sp_02_editarFoto(Request $request)
     {
         /*EXEC dbo.sp_02_consultarPerfil
@@ -32,6 +52,26 @@ class UsuarioController extends Controller
             
             self::utf8_encode_deep($usuarios);
             return response()->json(['usuario'=>$usuarios, 'status'=>200], 200);
+
+        }else{
+            return response()->json(['error'=>'erro consultar registros', 'status'=>400], 404); 
+        }
+
+    }
+    public function sp_02_paisCuota(Request $request)
+    {
+        /*EXEC dbo.sp_02_consultarPerfil
+        @IdUsuario = 1
+        ,@Idioma = 'ESP'*/
+
+        if ($request->input('IdUsuario')){
+            $usuarios=DB::select(DB::raw("exec sp_02_paisCuota :IdUsuario, :Idioma"),[
+                    ':IdUsuario' => $request->input('IdUsuario'),
+                    ':Idioma' => 'ESP'
+                ]);
+            
+            self::utf8_encode_deep($usuarios);
+            return response()->json(['paisCuota'=>$usuarios, 'status'=>200], 200);
 
         }else{
             return response()->json(['error'=>'Faltan datos para el proceso de actualización de usuario', 'status'=>400], 404); 
