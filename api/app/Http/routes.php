@@ -37,7 +37,7 @@ Route::group(['middleware' =>'cors'], function(){
     Route::post('/sp_01_ingresarC','LoginController@sp_01_ingresarC');
     Route::post('/contactos','ContactoController@contactos');
 
-    Route::post('/sp_02_editarFoto','UsuarioController@sp_02_editarFoto');
+    Route::post('/sp_01_registros','UsuarioController@sp_01_registros');
     Route::post('/sp_02_paisCuota','UsuarioController@sp_02_paisCuota');
 
     Route::post('/sp_02_editarPerfil','MenuController@sp_02_editarPerfil');
