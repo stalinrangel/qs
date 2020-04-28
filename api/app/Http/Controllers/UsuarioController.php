@@ -135,7 +135,7 @@ class UsuarioController extends Controller
         ,@passw = 'T1234'*/
 
         if (/*$request->input('IdUsuario')*/true){
-            $usuarios=DB::select(DB::raw("exec sp_01_guardar :IdUsuario, :Idioma,:nombre,:eMail,:telefono,:entidad,:ciudad,:passw"),[
+            $usuarios=DB::select(DB::raw("exec sp_01_guardar :IdUsuario, :Idioma,:nombre,:eMail,:telefono,:entidad,:ciudad,:passw,:idPais"),[
                     ':IdUsuario' => 1,
                     ':Idioma' => 'ESP',
                     ':nombre' => $request->input('nombre'),
@@ -144,6 +144,7 @@ class UsuarioController extends Controller
                     ':entidad' => $request->input('entidad'),
                     ':ciudad' => $request->input('ciudad'),
                     ':passw' => $request->input('passw'),
+                    ':idPais' => $request->input('idPais'),
                 ]);
             
             self::utf8_encode_deep($usuarios);
