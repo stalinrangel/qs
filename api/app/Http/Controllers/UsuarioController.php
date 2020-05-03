@@ -17,6 +17,27 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UsuarioController extends Controller
 {
+
+    public function sp_01_invitacion(Request $request)
+    {
+        /*EXEC [dbo].[sp_01_consultaPago]@IdUsuario Int,@Idioma Nvarchar(3)*/
+
+        if ($request->input('IdUsuario')){
+            $usuarios=DB::select(DB::raw("exec sp_01_invitacion :IdUsuario, :Idioma, ::IdPersona"),[
+                    ':IdUsuario' => $request->input('IdUsuario'),
+                    ':Idioma' => 'ESP',
+                    ':IdPersona'=> $request->input('IdPersona')m
+                ]);
+            
+            self::utf8_encode_deep($usuarios);
+            return response()->json(['registros'=>$usuarios, 'status'=>200], 200);
+
+        }else{
+            return response()->json(['error'=>'Faltan datos para el proceso de actualización de usuario', 'status'=>400], 404); 
+        }
+
+    }
+
     public function sp_01_guardarPago(Request $request)
     {
         /*EXEC [dbo].[sp_01_guardarPago]@IdUsuario Int,@Idioma Nvarchar(3),@importe decimal(18,2),@confirmacion varchar(15)*/
