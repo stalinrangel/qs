@@ -26,7 +26,7 @@ class UsuarioController extends Controller
             $usuarios=DB::select(DB::raw("exec sp_01_invitacion :IdUsuario, :Idioma, ::IdPersona"),[
                     ':IdUsuario' => $request->input('IdUsuario'),
                     ':Idioma' => 'ESP',
-                    ':IdPersona'=> $request->input('IdPersona')m
+                    ':IdPersona'=> $request->input('IdPersona')
                 ]);
             
             self::utf8_encode_deep($usuarios);
