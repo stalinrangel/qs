@@ -23,10 +23,10 @@ class UsuarioController extends Controller
         /*EXEC [dbo].[sp_01_consultaPago]@IdUsuario Int,@Idioma Nvarchar(3)*/
 
         if ($request->input('IdUsuario')){
-            $usuarios=DB::select(DB::raw("exec sp_01_invitacion :IdUsuario, :Idioma, ::IdPersona"),[
+            $usuarios=DB::select(DB::raw("exec sp_01_invitacion :IdUsuario, :Idioma, ::idPersona"),[
                     ':IdUsuario' => $request->input('IdUsuario'),
                     ':Idioma' => 'ESP',
-                    ':IdPersona'=> $request->input('IdPersona')
+                    ':idPersona'=> $request->input('idPersona')
                 ]);
             
             self::utf8_encode_deep($usuarios);
